@@ -43,7 +43,10 @@ class views_tree_plugin_style_tree extends views_plugin_style_list {
       }
     }
 
-    $events = array('click' => t('On Click'), 'mouseover' => t('On Mouseover'));
+    $events = array(
+      'click' => t('On Click'),
+      'mouseover' => t('On Mouseover'),
+    );
 
     $form['type']['#description'] = t('Whether to use an ordered or unordered list for the retrieved items. Most use cases will prefer Unordered.');
 

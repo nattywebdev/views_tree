@@ -11,7 +11,7 @@
 function views_tree_views_api() {
   return array(
     'api' => '3',
-    'path' => drupal_get_path('module', 'views_tree'),
+    'path' => backdrop_get_path('module', 'views_tree'),
   );
 }
 
@@ -62,12 +62,12 @@ function theme_views_tree($variables) {
   $parents = array();
 
   if (! $fields[$options['main_field']] instanceof views_handler_field) {
-    drupal_set_message(t('Main field is invalid: %field', array('%field' => $options['main_field'])), 'error');
+    backdrop_set_message(t('Main field is invalid: %field', array('%field' => $options['main_field'])), 'error');
     return '';
   }
 
   if (! $fields[$options['parent_field']] instanceof views_handler_field) {
-    drupal_set_message(t('Parent field is invalid: %field', array('%field' => $options['parent_field'])), 'error');
+    backdrop_set_message(t('Parent field is invalid: %field', array('%field' => $options['parent_field'])), 'error');
     return '';
   }
 
@@ -103,18 +103,18 @@ function theme_views_tree($variables) {
     'title' => $title,
     'result' => $result,
     'parent' => 0,
-    )
+  )
   );
 
   // Add JS and CSS for collapsible tree, if configured.
   if (!empty($options['collapsible_tree'])) {
-    drupal_add_js(array(
+    backdrop_add_js(array(
       'views_tree_setting' => array(
         $view->name => $options['collapsible_tree'],
       ),
     ), 'setting');
-    drupal_add_js(drupal_get_path('module', 'views_tree') . '/js/collapsible.js');
-    drupal_add_css(drupal_get_path('module', 'views_tree') . '/css/collapsible.css');
+    backdrop_add_js(backdrop_get_path('module', 'views_tree') . '/js/collapsible.js');
+    backdrop_add_css(backdrop_get_path('module', 'views_tree') . '/css/collapsible.css');
   }
   return $title . $tree;
 }
@@ -147,7 +147,7 @@ function theme_views_tree_inner($variables) {
       $items[] = $rows[$i] . call_user_func(__FUNCTION__, $variables);
     }
   }
-  return count($items) ? theme('item_list', array('items' => $items, 'type' => $options['type'])) : '';
+  return count($items)?theme('item_list', array('items' => $items, 'type' => $options['type'])) : '';
 }
 
 /**
@@ -188,4 +188,13 @@ function views_tree_normalize_key($value, views_handler_field $field) {
   else {
     return $value ? $value : 0;
   }
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function views_tree_autoload_info() {
+  return array(
+    'views_tree_plugin_style_tree' => 'views_tree_plugin_style_tree.inc',
+  );
 }
